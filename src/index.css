@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Cash Recorder Design System - Teal/Green Finance Theme */
+
+@layer base {
+  :root {
+    --background: 150 20% 98%;
+    --foreground: 160 25% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 25% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 25% 10%;
+
+    --primary: 162 72% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 25% 95%;
+    --secondary-foreground: 160 25% 15%;
+
+    --muted: 160 15% 92%;
+    --muted-foreground: 160 10% 45%;
+
+    --accent: 45 95% 55%;
+    --accent-foreground: 45 95% 15%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 70% 45%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 95% 55%;
+    --warning-foreground: 38 95% 15%;
+
+    --border: 160 20% 88%;
+    --input: 160 20% 88%;
+    --ring: 162 72% 35%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 160 25% 97%;
+    --sidebar-foreground: 160 25% 20%;
+    --sidebar-primary: 162 72% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 25% 92%;
+    --sidebar-accent-foreground: 160 25% 15%;
+    --sidebar-border: 160 20% 88%;
+    --sidebar-ring: 162 72% 35%;
+
+    /* Category colors */
+    --category-food: 14 85% 55%;
+    --category-transport: 210 85% 55%;
+    --category-shopping: 280 70% 60%;
+    --category-bills: 45 90% 50%;
+    --category-health: 0 70% 55%;
+    --category-education: 200 75% 50%;
+    --category-entertainment: 320 70% 55%;
+    --category-other: 160 15% 50%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(162 72% 35%), hsl(162 72% 45%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(160 20% 98%));
+    --gradient-hero: linear-gradient(135deg, hsl(162 72% 30%), hsl(162 72% 40%), hsl(45 95% 55%));
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 220 20% 14%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 220 20% 14%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 162 72% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 15% 22%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 220 15% 25%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 45 95% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 65% 50%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 90% 55%;
+    --warning-foreground: 0 0% 10%;
+
+    --border: 220 15% 25%;
+    --input: 220 15% 25%;
+    --ring: 162 72% 50%;
+
+    --sidebar-background: 220 20% 12%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 162 72% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 22%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 15% 25%;
+    --sidebar-ring: 162 72% 50%;
+
+    /* Dark mode gradient overrides */
+    --gradient-card: linear-gradient(180deg, hsl(220 20% 14%), hsl(220 20% 12%));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Hind Siliguri', 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Hind Siliguri', 'Inter', sans-serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  .stat-card {
+    @apply relative overflow-hidden rounded-xl bg-card p-6 shadow-lg border border-border/50;
+    background: var(--gradient-card);
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+  }
+
+  .category-badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-2 px-4 py-2.5 rounded-lg text-muted-foreground transition-all duration-200 hover:bg-primary/10 hover:text-primary;
+  }
+
+  .nav-link.active {
+    @apply bg-primary text-primary-foreground shadow-md;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-xl shadow-lg;
+  }
+
+  .input-modern {
+    @apply w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-primary-foreground transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98];
+    background: var(--gradient-primary);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+  }
+
+  .chart-container {
+    @apply bg-card rounded-xl p-6 shadow-lg border border-border/50;
+  }
+}

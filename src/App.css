@@ -1,0 +1,479 @@
+/* Global Responsive Styles for All Devices */
+
+/* Base mobile-first styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Container padding for all screen sizes */
+.container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive text sizing */
+h1 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+/* Chart containers - responsive */
+.chart-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  background: hsl(var(--card));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+}
+
+/* Stat cards - responsive */
+.stat-card {
+  padding: 1rem;
+  background: hsl(var(--card));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+}
+
+/* Forms - responsive */
+form {
+  width: 100%;
+}
+
+input, 
+select, 
+textarea,
+button {
+  width: 100%;
+  font-size: 1rem;
+}
+
+/* Tables - responsive with horizontal scroll */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  min-width: 600px; /* Minimum width before scrolling */
+}
+
+/* Grid layouts - responsive */
+.grid-responsive {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+/* Flex layouts - responsive */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Button groups - stack on mobile */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Cards - full width on mobile */
+.card-responsive {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Navigation - responsive */
+nav {
+  width: 100%;
+  overflow-x: auto;
+}
+
+nav a {
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+}
+
+/* Recharts responsive */
+.recharts-wrapper {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.recharts-surface {
+  width: 100% !important;
+}
+
+/* Small mobile devices (320px - 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.125rem;
+  }
+
+  .stat-card,
+  .chart-container {
+    padding: 0.75rem;
+  }
+
+  /* Hide non-essential columns on very small screens */
+  .hide-on-mobile {
+    display: none;
+  }
+
+  /* Stack buttons vertically */
+  .button-group {
+    flex-direction: column;
+  }
+
+  /* Reduce chart height on mobile */
+  .recharts-wrapper {
+    max-height: 250px !important;
+  }
+}
+
+/* Tablet devices (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 720px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .button-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* Small desktop (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+/* Large desktop (1025px+) */
+@media (min-width: 1025px) {
+  .container {
+    max-width: 1200px;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  .grid-responsive {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .flex-responsive {
+    flex-direction: row;
+  }
+
+  /* 3 columns for category cards */
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* 4 columns for summary items */
+  .summary-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  .stat-card,
+  .chart-container {
+    padding: 0.75rem;
+  }
+
+  /* Reduce vertical spacing */
+  .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .chart-container,
+  .stat-card {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+  }
+}
+
+/* Touch device optimization */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger tap targets for touch devices */
+  button,
+  a,
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent double-tap zoom */
+  * {
+    touch-action: manipulation;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Crisper borders and text */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .chart-container,
+  .stat-card {
+    border-color: hsl(var(--border));
+  }
+}
+
+/* Specific component responsive fixes */
+
+/* Auth page */
+.auth-container {
+  min-height: 100vh;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .auth-container {
+    padding: 2rem;
+  }
+}
+
+/* Dashboard layout */
+.dashboard-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Profile page */
+.profile-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .profile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Reports filters */
+.filters-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .filters-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Charts page */
+.charts-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Budget summary grid */
+.budget-summary-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .budget-summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Custom date selector */
+.date-selector-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .date-selector-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Expense list - responsive table alternative */
+@media (max-width: 640px) {
+  .expense-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .expense-row > * {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .expense-row > *::before {
+    content: attr(data-label);
+    font-weight: 600;
+  }
+}
+
+/* Utility classes for responsive design */
+.mobile-only {
+  display: block;
+}
+
+.tablet-up {
+  display: none;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+  
+  .tablet-up {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Responsive spacing utilities */
+.space-y-mobile {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .space-y-mobile {
+    margin-top: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .space-y-mobile {
+    margin-top: 2rem;
+  }
+}

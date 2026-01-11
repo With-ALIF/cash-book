@@ -1,0 +1,135 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+
+export interface BudgetHistoryItem {
+  id: string;
+  user_id: string;
+  amount: number;
+  description: string | null;
+  budget_date: string;
+  month: number;
+  year: number;
+  created_at: string;
+}
+
+// Get current month/year in BD timezone
+function getBDMonthYear() {
+  const now = new Date();
+  const bdTime = new Date(now.getTime() + (6 * 60 * 60 * 1000));
+  return {
+    month: bdTime.getUTCMonth() + 1,
+    year: bdTime.getUTCFullYear(),
+  };
+}
+
+export function useBudgetHistory(month?: number, year?: number) {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
+  const { month: currentMonth, year: currentYear } = getBDMonthYear();
+  const targetMonth = month ?? currentMonth;
+  const targetYear = year ?? currentYear;
+
+  const { data: budgetHistory = [], isLoading } = useQuery({
+    queryKey: ['budget_history', user?.id, targetMonth, targetYear],
+    queryFn: async () => {
+      if (!user) return [];
+      const { data, error } = await supabase
+        .from('budget_history')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('month', targetMonth)
+        .eq('year', targetYear)
+        .order('budget_date', { ascending: false });
+      
+      if (error) throw error;
+      return data as BudgetHistoryItem[];
+    },
+    enabled: !!user,
+  });
+
+  const addBudgetHistoryMutation = useMutation({
+    mutationFn: async (item: {
+      amount: number;
+      description?: string;
+      budget_date: string;
+    }) => {
+      if (!user) throw new Error('User not authenticated');
+      
+      // Get month/year from budget_date
+      const date = new Date(item.budget_date);
+      const itemMonth = date.getMonth() + 1;
+      const itemYear = date.getFullYear();
+      
+      const { error } = await supabase
+        .from('budget_history')
+        .insert({
+          user_id: user.id,
+          amount: item.amount,
+          description: item.description || null,
+          budget_date: item.budget_date,
+          month: itemMonth,
+          year: itemYear,
+        });
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget_history'] });
+      queryClient.invalidateQueries({ queryKey: ['budget'] });
+      toast({
+        title: "সফল!",
+        description: "বাজেট যোগ হয়েছে",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "ত্রুটি",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteBudgetHistoryMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('budget_history')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['budget_history'] });
+      queryClient.invalidateQueries({ queryKey: ['budget'] });
+      toast({
+        title: "সফল!",
+        description: "বাজেট মুছে ফেলা হয়েছে",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "ত্রুটি",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const totalBudget = budgetHistory.reduce((sum, item) => sum + Number(item.amount), 0);
+
+  return {
+    budgetHistory,
+    isLoading,
+    addBudgetHistory: addBudgetHistoryMutation.mutate,
+    deleteBudgetHistory: deleteBudgetHistoryMutation.mutate,
+    isAddingBudget: addBudgetHistoryMutation.isPending,
+    totalBudget,
+    currentMonth: targetMonth,
+    currentYear: targetYear,
+  };
+}
